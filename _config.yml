@@ -1,0 +1,5 @@
+title: My Blog
+description: A personal blog about cybersecurity
+baseurl: "" # leave empty for username.github.io
+url: "https://Mayu-xin.github.io"
+theme: minima

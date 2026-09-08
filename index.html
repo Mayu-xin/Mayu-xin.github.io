@@ -1,12 +1,314 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>我的网络安全博客</title>
+    <!-- 使用简洁的字体与样式 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <style>
+        /* 全局重置与基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #0b1a2e;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
+
+        /* 卡片式容器 —— 增加视觉层次 */
+        .blog-card {
+            max-width: 720px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 30, 0.15),
+                        0 4px 18px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.25s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(2px);
+        }
+
+        .blog-card:hover {
+            box-shadow: 0 30px 60px -16px rgba(0, 40, 60, 0.20);
+        }
+
+        /* 头部标识 */
+        .blog-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #0b6b6b;
+            background: #e0f2f1;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            margin-bottom: 1rem;
+            border: 1px solid #b2dfdb;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #0b1a2e;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .subhead {
+            font-size: 1.1rem;
+            color: #3a4a5e;
+            margin-bottom: 2.25rem;
+            border-left: 4px solid #2c7a7b;
+            padding-left: 1.2rem;
+            background: #f1f5f9;
+            border-radius: 0 12px 12px 0;
+            padding: 0.8rem 1.2rem;
+        }
+
+        /* 文章列表 */
+        .post-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .post-list li {
+            border-bottom: 1px solid #e9edf2;
+            transition: background 0.15s ease;
+            border-radius: 12px;
+        }
+
+        .post-list li:last-child {
+            border-bottom: none;
+        }
+
+        .post-list a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 0.8rem;
+            text-decoration: none;
+            color: #0b1a2e;
+            font-weight: 500;
+            font-size: 1.15rem;
+            transition: all 0.2s ease;
+            border-radius: 12px;
+        }
+
+        .post-list a:hover {
+            background: #f1f6fa;
+            padding-left: 1.4rem;
+            color: #0b6b6b;
+        }
+
+        /* 装饰小图标 (纯CSS) */
+        .post-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: #dce8f0;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .post-list a:hover .post-icon {
+            background: #b7d4d4;
+        }
+
+        .post-meta {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: #6b7d8f;
+            margin-left: auto;
+            background: #f1f5f9;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            white-space: nowrap;
+        }
+
+        /* 页脚小提示 */
+        .footer-note {
+            margin-top: 2.5rem;
+            font-size: 0.9rem;
+            color: #6b7d8f;
+            text-align: center;
+            border-top: 1px dashed #dce4ec;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-note span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .footer-note a {
+            color: #0b6b6b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+
+        /* 响应式优化 */
+        @media (max-width: 540px) {
+            .blog-card {
+                padding: 2rem 1.5rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .subhead {
+                font-size: 0.95rem;
+                padding: 0.6rem 1rem;
+            }
+            .post-list a {
+                font-size: 1rem;
+                padding: 1rem 0.4rem;
+                flex-wrap: wrap;
+            }
+            .post-meta {
+                margin-left: 0;
+                margin-top: 0.2rem;
+                font-size: 0.75rem;
+                padding: 0.1rem 0.8rem;
+            }
+            .post-icon {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
+            }
+        }
+
+        /* 简单暗色模式 (可选) */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #0d1a26;
+                color: #e3edf5;
+            }
+            .blog-card {
+                background: #132433;
+                border-color: #2a4055;
+                box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+            }
+            .blog-card:hover {
+                box-shadow: 0 30px 60px -16px rgba(0, 0, 0, 0.8);
+            }
+            h1 {
+                color: #ecf5fb;
+            }
+            .subhead {
+                color: #b6ccdf;
+                background: #1b3142;
+                border-left-color: #5b9a9b;
+            }
+            .post-list li {
+                border-bottom-color: #2a4055;
+            }
+            .post-list a {
+                color: #e3edf5;
+            }
+            .post-list a:hover {
+                background: #1f3850;
+                color: #a8d4d4;
+            }
+            .post-icon {
+                background: #26445a;
+                color: #d4e4f0;
+            }
+            .post-list a:hover .post-icon {
+                background: #3d6a7a;
+            }
+            .post-meta {
+                background: #1f3850;
+                color: #b0c8db;
+            }
+            .blog-badge {
+                background: #1e4a4a;
+                color: #b0e0e0;
+                border-color: #2f6b6b;
+            }
+            .footer-note {
+                border-top-color: #2a4055;
+                color: #9bb2c7;
+            }
+            .footer-note a {
+                color: #7fc1c1;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>我的博客主页</h1>
-    <ul>
-        <li><a href="帖子.html">点击查看我的第一个帖子</a ></li>
-    </ul>
+
+    <div class="blog-card">
+
+        <!-- 小徽章 -->
+        <div class="blog-badge">🔐 零日 · 运维</div>
+
+        <!-- 主标题 -->
+        <h1>我的网络安全博客</h1>
+
+        <!-- 副标题 / 简介 -->
+        <div class="subhead">
+            📡 记录攻防技术 · 渗透笔记 · 安全思考
+        </div>
+
+        <!-- 文章列表 -->
+        <ul class="post-list">
+            <li>
+                <a href="帖子.html">
+                    <span class="post-icon">📄</span>
+                    <span>点击查看我的第一个帖子</span>
+                    <span class="post-meta">首发 · 2026</span>
+                </a>
+            </li>
+            <!-- 你可以在这里继续增加更多条目，例如：
+            <li>
+                <a href="内网渗透.html">
+                    <span class="post-icon">🌐</span>
+                    <span>内网渗透基础思路</span>
+                    <span class="post-meta">2026-09</span>
+                </a>
+            </li>
+            -->
+        </ul>
+
+        <!-- 页脚信息 -->
+        <div class="footer-note">
+            <span>🛡️ 保持好奇 · 保持怀疑</span>
+            <span>
+                <a href="#">RSS</a> ·
+                <a href="#">关于</a>
+            </span>
+        </div>
+
+    </div>
+
 </body>
 </html>
